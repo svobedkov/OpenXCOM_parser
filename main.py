@@ -9,7 +9,7 @@ APPDir = os.getcwd()    #Расположение программы
 ModsFoldersWithSaves = ["xcom1"]    #Список модулей
 DeffaultPath = "C:\\Users\\" + Login + "\\Documents\\OpenXcom\\"    #Путь до папки с OpenXCOM
 DeffaultPathToMod = DeffaultPath + "mods\\" + ModsFoldersWithSaves[0]   #Путь до папки с модификациями OpenXCOM
-DefaultMod = ModsFoldersWithSaves[0]    #По умолчанию выбранная модификация
+DeffaultMod = ModsFoldersWithSaves[0]    #По умолчанию выбранная модификация
 
 #   Search for saves
 os.chdir(DeffaultPath + "mods")
@@ -34,7 +34,10 @@ buffer = 1337
 while buffer != "0":
     print("\tWhat are you wanna do today?\n\t1) Export statistics\n\t2) Settings\n\t0) Exit\n\tInput > ", end="")
     buffer = input()
+    if buffer == "1":
+        clear()
+        Exporter.ChooseSaveFile(DeffaultPath, DeffaultMod, APPDir)
     if buffer == "2":
         clear()
-        ModsFoldersWithSaves, DefaultMod = Settings.Settings(ModsFoldersWithSaves, DefaultMod)
+        ModsFoldersWithSaves, DeffaultMod = Settings.Settings(ModsFoldersWithSaves, DeffaultMod)
     clear()
