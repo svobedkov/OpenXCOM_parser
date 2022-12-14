@@ -36,7 +36,43 @@ def Export(savefile, APPDir):
     Datapoints.append(f.tell())
     ws.append(Datapoints)
     #Вывод инф-ии о базах
-    for col in ws.columns:
+    f.seek(Datapoints[0])
+    buffer = f.readline()
+    while f.tell() <= Datapoints[1]:
+        if "  - lon:" == buffer[0:8]:
+            f.readline()
+            buffer = f.readline()[10:]
+            ws.append([buffer])
+            ws.append(["", "Solider", "tu", "stamina", "health", "bravery", "reactions", "firing", "throwing", "strength", "psiStrength", "psiSkill", "melee"])
+            buffer = f.readline()
+            while "  - lon:" != buffer[0:8] and f.tell() <= Datapoints[1]:
+                buffer = f.readline()
+                if "        name:" == buffer[0:13]:
+                    stroka = ["", buffer[14:]]
+                    for i in range(15):
+                        f.readline()
+                    for i in range(11):
+                        buffer = f.readline()
+                        stroka.append(buffer[buffer.index(":") + 1:])
+                    ws.append(stroka)
+    ws.append([""])
+    ws.append([""])
+    ws.append(["AlienBases", "race", "deployment", "startMonth"])
+    f.seek(Datapoints[1])
+    buffer = f.readline()
+    while f.tell() <= Datapoints[2]:
+        if "  - lon:" == buffer[0:8]:
+            while "    race:" != buffer[:9]:
+                buffer = f.readline()
+            stroka = ["", buffer[9:]]
+            while "    deployment:" != buffer[:15]:
+                buffer = f.readline()
+            stroka.append(buffer[16:])
+            buffer = f.readline()
+            stroka.append(buffer[16:])
+            ws.append(stroka)
+        buffer = f.readline()
+    for col in ws.columns:  # Выставляет ширину для столбцов
         max_length = 0
         column = col[0].column_letter  # Получить букву столбца
         for cell in col:
@@ -47,5 +83,6 @@ def Export(savefile, APPDir):
                 pass
         adjusted_width = (max_length + 2) * 1.2
         ws.column_dimensions[column].width = adjusted_width
+    f.close()
     wb.save("EXPORT.xlsx")
     return 0
