@@ -22,7 +22,7 @@ def Export(savefile, APPDir):
     while buffer != "bases:\n":    # Поиск начала списка bases в сохранении
         buffer = f.readline()
     Datapoints.append(f.tell())
-    while buffer != "alienBases:\n":    # Поиск конца списка bases и начало alienBases и начало сохранении
+    while buffer != "alienBases:\n" and buffer != "alienMissions:\n":    # Поиск конца списка bases и начало alienBases и начало сохранении
         buffer = f.readline()
     Datapoints.append(f.tell())
     while buffer != "alienMissions:\n":    # Поиск конца списка alienBases в сохранении
@@ -31,7 +31,8 @@ def Export(savefile, APPDir):
     while buffer != "discovered:\n":    # Поиск начала списка discovered в сохранении
         buffer = f.readline()
     Datapoints.append(f.tell())
-    while buffer != "poppedResearch:\n":    # Поиск конца списка discovered в сохранении
+    buffer = f.readline()
+    while buffer.find(":") == -1:    # Поиск конца списка discovered в сохранении
         buffer = f.readline()
     Datapoints.append(f.tell())
     ws.append(Datapoints)
@@ -71,6 +72,14 @@ def Export(savefile, APPDir):
             buffer = f.readline()
             stroka.append(buffer[16:])
             ws.append(stroka)
+        buffer = f.readline()
+    ws.append([""])
+    ws.append([""])
+    ws.append(["discovered"])
+    f.seek(Datapoints[3])
+    buffer = f.readline()
+    while buffer != "poppedResearch:\n" and f.tell() <= Datapoints[4] and buffer != "ufopediaRuleStatus:\n":
+        ws.append(["", buffer[4:]])
         buffer = f.readline()
     for col in ws.columns:  # Выставляет ширину для столбцов
         max_length = 0
