@@ -10,7 +10,6 @@ ModsFoldersWithSaves = ["xcom1"]    #Список модулей
 DeffaultPath = "C:/Users/" + Login + "/Documents/OpenXcom/"    #Путь до папки с OpenXCOM
 DeffaultPathToMod = DeffaultPath + "mods/" + ModsFoldersWithSaves[0]   #Путь до папки с модификациями OpenXCOM
 DeffaultMod = ModsFoldersWithSaves[0]    #По умолчанию выбранная модификация
-LanguageFiles = []
 
 #   Search for saves
 os.chdir(DeffaultPath + "mods")
@@ -40,5 +39,5 @@ while buffer != "0":
         Exporter.ChooseSaveFile(DeffaultPath, DeffaultMod, APPDir)
     elif buffer == "2":
         clear()
-        ModsFoldersWithSaves, DeffaultMod, LanguageFiles = Settings.Settings(ModsFoldersWithSaves, DeffaultMod, LanguageFiles)
+        ModsFoldersWithSaves, DeffaultMod = Settings.Settings(ModsFoldersWithSaves, DeffaultMod)
     clear()

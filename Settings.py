@@ -2,11 +2,11 @@ import os
 
 clear = lambda: os.system('cls')
 
-def Settings(mods, ChosenMod, Language):
+def Settings(mods, ChosenMod):
     #   Menu for settings
     buffer = 1337
     while buffer != "0":
-        print("\tSETTINGS\n\t1) Choose mod\n\t2) Load language\n\t0) Back\n\tInput > ", end="")
+        print("\tSETTINGS\n\t1) Choose mod\n\t2) Load language(WORK IN PROGRESS)\n\t0) Back\n\tInput > ", end="")
         buffer = input()
         if buffer == "1":
             buffer = 1
@@ -20,4 +20,4 @@ def Settings(mods, ChosenMod, Language):
             for i in mods:
                 print("aboba")
         clear()
-    return mods, ChosenMod, Language
+    return mods, ChosenMod

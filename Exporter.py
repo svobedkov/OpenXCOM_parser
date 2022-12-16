@@ -10,6 +10,7 @@ def ChooseSaveFile(DeffaultPath, DeffaultMod, APPDir):
         print("\tChoose save file")
         for i in buff:
             print("\t",buff.index(i) + 1, i)
+        print("\tInput > ", end="")
         Export(buff[int(input()) - 1], APPDir)
     return 0
 
@@ -36,6 +37,19 @@ def Export(savefile, APPDir):
     while buffer.find(":") == -1:    # Поиск конца списка discovered в сохранении
         buffer = f.readline()
     Datapoints.append(f.tell())
+    #Поиск строчек о хар-ках (В модификациях любят играться с изменением хар-ик)
+    Stats = ["", "Soliders"]
+    Found = 0
+    f.seek(Datapoints[0])
+    buffer = f.readline()
+    while f.tell() <= Datapoints[1]:
+        if "        currentStats:\n" == buffer:
+            Found = 1
+        elif Found == 1 and buffer[:13] != "        rank:":
+            Stats.append(buffer[:buffer.index(":")].replace(" ", ""))
+        elif buffer[:13] == "        rank:":
+            break
+        buffer = f.readline()
     #Вывод инф-ии о базах
     f.seek(Datapoints[0])
     buffer = f.readline()
@@ -44,15 +58,16 @@ def Export(savefile, APPDir):
             f.readline()
             buffer = f.readline()[10:]
             ws.append([buffer])
-            ws.append(["", "Solider", "tu", "stamina", "health", "bravery", "reactions", "firing", "throwing", "strength", "psiStrength", "psiSkill", "melee"])
+            ws.append(Stats)
             buffer = f.readline()
             while "  - lon:" != buffer[0:8] and f.tell() <= Datapoints[1]:
                 buffer = f.readline()
                 if "        name:" == buffer[0:13]:
                     stroka = ["", buffer[14:]]
-                    for i in range(15):
-                        f.readline()
-                    for i in range(11):
+                    while buffer != "        currentStats:\n":
+                        buffer = f.readline()
+                    buffer = f.readline()
+                    while buffer[:13] != "        rank:":
                         buffer = f.readline()
                         stroka.append(buffer[buffer.index(":") + 1:])
                     ws.append(stroka)
