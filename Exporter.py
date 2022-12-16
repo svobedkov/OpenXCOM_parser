@@ -6,10 +6,11 @@ clear = lambda: os.system('cls')
 def ChooseSaveFile(DeffaultPath, DeffaultMod, APPDir):
     os.chdir(DeffaultPath + DeffaultMod)
     buff = os.listdir()
-    print("\tChoose save file")
-    for i in buff:
-        print("\t",buff.index(i) + 1, i)
-    Export(buff[int(input()) - 1], APPDir)
+    if buff != []:
+        print("\tChoose save file")
+        for i in buff:
+            print("\t",buff.index(i) + 1, i)
+        Export(buff[int(input()) - 1], APPDir)
     return 0
 
 def Export(savefile, APPDir):
@@ -98,5 +99,9 @@ def Export(savefile, APPDir):
         adjusted_width = (max_length + 2) * 1.2
         ws.column_dimensions[column].width = adjusted_width
     f.close()
-    wb.save("EXPORT.xlsx")
+    buffer = os.listdir()
+    num = 0
+    while ("EXPORT" + str(num) + ".xlsx") in buffer:
+        num += 1
+    wb.save("EXPORT" + str(num) + ".xlsx")
     return 0

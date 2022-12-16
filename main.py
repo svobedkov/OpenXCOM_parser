@@ -7,15 +7,16 @@ clear = lambda: os.system('cls')
 Login = os.getlogin()   #Имя пользователя Windows
 APPDir = os.getcwd()    #Расположение программы
 ModsFoldersWithSaves = ["xcom1"]    #Список модулей
-DeffaultPath = "C:\\Users\\" + Login + "\\Documents\\OpenXcom\\"    #Путь до папки с OpenXCOM
-DeffaultPathToMod = DeffaultPath + "mods\\" + ModsFoldersWithSaves[0]   #Путь до папки с модификациями OpenXCOM
+DeffaultPath = "C:/Users/" + Login + "/Documents/OpenXcom/"    #Путь до папки с OpenXCOM
+DeffaultPathToMod = DeffaultPath + "mods/" + ModsFoldersWithSaves[0]   #Путь до папки с модификациями OpenXCOM
 DeffaultMod = ModsFoldersWithSaves[0]    #По умолчанию выбранная модификация
+LanguageFiles = []
 
 #   Search for saves
 os.chdir(DeffaultPath + "mods")
 buffer = os.listdir()
 for i in buffer:
-    os.chdir(DeffaultPath + "mods\\" + i)
+    os.chdir(DeffaultPath + "mods/" + i)
     j = open("metadata.yml").readlines()
     id = ''
     check = 0
@@ -37,7 +38,7 @@ while buffer != "0":
     if buffer == "1":
         clear()
         Exporter.ChooseSaveFile(DeffaultPath, DeffaultMod, APPDir)
-    if buffer == "2":
+    elif buffer == "2":
         clear()
-        ModsFoldersWithSaves, DeffaultMod = Settings.Settings(ModsFoldersWithSaves, DeffaultMod)
+        ModsFoldersWithSaves, DeffaultMod, LanguageFiles = Settings.Settings(ModsFoldersWithSaves, DeffaultMod, LanguageFiles)
     clear()
