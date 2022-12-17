@@ -6,7 +6,9 @@ def Settings(mods, ChosenMod):
     """ Меню параметров, позволяет менять мод, более не для чего пока не используется
 
     :param mods:
+        Список обнаруженных "Мастер" модификаций
     :param ChosenMod:
+        По умолчанию выбранный мод
     :return:
     """
     #   Menu for settings
@@ -17,11 +19,14 @@ def Settings(mods, ChosenMod):
         if buffer == "1":
             buffer = 1
             clear()
-            for i in mods:
-                print("\t" + str(buffer) + ")", i)
-                buffer += 1
-            print("\tInput > ", end="")
-            ChosenMod = mods[int(input()) - 1]
+            if len(mods) > 1:
+                for i in mods:
+                    print("\t" + str(buffer) + ")", i)
+                    buffer += 1
+                print("\tInput > ", end="")
+                ChosenMod = mods[int(input()) - 1]
+            else:
+                ChosenMod = mods[0]
         elif buffer == "2":
             for i in mods:
                 print("aboba")

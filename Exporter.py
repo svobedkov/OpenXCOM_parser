@@ -6,8 +6,11 @@ clear = lambda: os.system('cls')
 def ChooseSaveFile(DeffaultPath, DeffaultMod, APPDir):
     """ Отслеживает сохранения и начинает экспорт
     :param DeffaultPath:
+        Путь до папки с OpenXCOM
     :param DeffaultMod:
+        Выбранный по умолчанию мод
     :param APPDir:
+        Расположения приложения
     :return:
     """
     os.chdir(DeffaultPath + DeffaultMod)
@@ -26,7 +29,9 @@ def Export(savefile, APPDir):
     2.  Ищет признаки мод-ых характеристик(Мододелы любят прописывать собственные хар-ки), многократно расширяет список совместимых мод-ий
     3.  Последовательно вычленяет данные в Excel, следуя логике сохранений и особенностей работы приложения
     :param savefile:
+        Выбранный файл сохранения
     :param APPDir:
+        Расположения приложения
     :return:
     """
     f = open(savefile)
