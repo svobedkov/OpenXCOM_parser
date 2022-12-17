@@ -79,6 +79,7 @@ def Export(savefile, APPDir):
                         buffer = f.readline()
     ws.append([""])
     ws.append([""])
+    # Вывод инф-ию о активных базах
     ws.append(["AlienBases", "race", "deployment", "startMonth"])
     f.seek(Datapoints[1])
     buffer = f.readline()
@@ -96,6 +97,7 @@ def Export(savefile, APPDir):
         buffer = f.readline()
     ws.append([""])
     ws.append([""])
+    # Вывод инф-ии об изученных технологиях
     ws.append(["discovered"])
     f.seek(Datapoints[3])
     buffer = f.readline()
