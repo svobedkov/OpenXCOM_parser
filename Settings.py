@@ -3,6 +3,12 @@ import os
 clear = lambda: os.system('cls')
 
 def Settings(mods, ChosenMod):
+    """ Меню параметров, позволяет менять мод, более не для чего пока не используется
+
+    :param mods:
+    :param ChosenMod:
+    :return:
+    """
     #   Menu for settings
     buffer = 1337
     while buffer != "0":

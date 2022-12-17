@@ -16,7 +16,7 @@ os.chdir(DeffaultPath + "mods")
 buffer = os.listdir()
 for i in buffer:
     os.chdir(DeffaultPath + "mods/" + i)
-    j = open("metadata.yml").readlines()
+    j = open("metadata.yml").readlines()    # Читает метадату в поисках "Мастер" модов
     id = ''
     check = 0
     for stroka in j:

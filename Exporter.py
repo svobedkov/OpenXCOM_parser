@@ -4,6 +4,12 @@ import openpyxl
 clear = lambda: os.system('cls')
 
 def ChooseSaveFile(DeffaultPath, DeffaultMod, APPDir):
+    """ Отслеживает сохранения и начинает экспорт
+    :param DeffaultPath:
+    :param DeffaultMod:
+    :param APPDir:
+    :return:
+    """
     os.chdir(DeffaultPath + DeffaultMod)
     buff = os.listdir()
     if buff != []:
@@ -15,6 +21,14 @@ def ChooseSaveFile(DeffaultPath, DeffaultMod, APPDir):
     return 0
 
 def Export(savefile, APPDir):
+    """ Основная часть программы, парсит файл в следующем порядке:
+    1.  Ищет в файле "флаги" отвечающие за интерисующие данные
+    2.  Ищет признаки мод-ых характеристик(Мододелы любят прописывать собственные хар-ки), многократно расширяет список совместимых мод-ий
+    3.  Последовательно вычленяет данные в Excel, следуя логике сохранений и особенностей работы приложения
+    :param savefile:
+    :param APPDir:
+    :return:
+    """
     f = open(savefile)
     os.chdir(APPDir)
     wb = openpyxl.Workbook()
@@ -43,11 +57,12 @@ def Export(savefile, APPDir):
     f.seek(Datapoints[0])
     buffer = f.readline()
     while f.tell() <= Datapoints[1]:
-        if "        currentStats:\n" == buffer:
+        if "        currentStats:\n" == buffer: # Ищет хотя-бы одного сущ-его бойца, на основе которого строит хар, ки
             Found = 1
         elif Found == 1 and buffer[:13] != "        rank:":
             Stats.append(buffer[:buffer.index(":")].replace(" ", ""))
         elif buffer[:13] == "        rank:":
+            Stats.append("armor")
             break
         buffer = f.readline()
     #Вывод инф-ии о базах
@@ -70,6 +85,9 @@ def Export(savefile, APPDir):
                     while buffer[:13] != "        rank:":
                         buffer = f.readline()
                         stroka.append(buffer[buffer.index(":") + 1:])
+                    while buffer[:14] != "        armor:":
+                        buffer = f.readline()
+                    stroka.append(buffer[buffer.index(":") + 1:])
                     ws.append(stroka)
                 if buffer == "    items:\n":
                     ws.append(["", "Storage"])
